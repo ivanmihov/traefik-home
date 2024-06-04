@@ -1,4 +1,4 @@
-[![ghcr.io release](https://img.shields.io/github/v/release/santimar/traefik-home?label=latest%20version&style=for-the-badge)](https://github.com/santimar/traefik-home/pkgs/container/traefik-home/versions)
+[![ghcr.io release](https://img.shields.io/github/v/release/ivanmihov/traefik-home?label=latest%20version&style=for-the-badge)](https://github.com/ivanmihov/traefik-home/pkgs/container/traefik-home/versions)
 
 # Traefik Home
 ![preview](/doc/preview.jpg)
@@ -26,7 +26,7 @@ docker run --name traefik-home \
     --label traefik.enable=true \
     --label traefik.http.routers.traefik-home.rule="Host(`home.example.com`)" \
     --label traefik.http.services.traefik-home.loadbalancer.server.port="80" \
-    ghcr.io/santimar/traefik-home:latest
+    ghcr.io/ivanmihov/traefik-home:latest
 ```
 
 Wait for the service to be online, then go to `home.example.com` and enjoy the view.
@@ -39,7 +39,7 @@ version: '3'
 
 services:
   traefik-home:
-    image: ghcr.io/santimar/traefik-home:latest  # or use a specific tag version
+    image: ghcr.io/ivanmihov/traefik-home:latest  # or use a specific tag version
     container_name: traefik-home
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -54,7 +54,7 @@ services:
       # see below for more info about exposed containers configuration
       - traefik-home.icon: "https://url/of/an/icon.png"
       - traefik-home.alias: "Alias"
-    
+
 ```
 
 ## Labels to configure Home
@@ -81,7 +81,7 @@ Home will use the following `traefik` labels to generate the HTML page.
 <summary>note about setting multiple domains and/or paths on the same rule</summary>
 
 ---
-Traefik allows you to set multiple domains and path on the same rule like 
+Traefik allows you to set multiple domains and path on the same rule like
 ```
 Host(`example.org`) && PathPrefix(`/path`) || Host(`domain.com`) && Path(`/path`)
 ```
@@ -89,17 +89,17 @@ However Traefik-Home will only use the first `Host` and `Path/PathPrefix` found 
 
 In this example, the app will be available at `example.org/path`, ignoring the other domain.
 
-Also, keep in mind that using a rule like 
+Also, keep in mind that using a rule like
 ```
 Host(`example.org`) || Host(`domain.com`) && PathPrefix(`/path`)
 ```
 will create a link to `example.org/path`.
 
-In a situation like this, you just have to rewrite the rule like 
+In a situation like this, you just have to rewrite the rule like
 ```
 Host(`example.org`) && PathPrefix(`/`) || Host(`domain.com`) && PathPrefix(`/path`)
 ```
-or like 
+or like
 ```
 Host(`domain.com`) && PathPrefix(`/path`) || Host(`example.org`)
 ```
@@ -123,7 +123,7 @@ You will need to mount icon file(s) to `/usr/share/nginx/html/icons/` folder on 
 
 ```yaml
 traefik-home:
-   image: ghcr.io/santimar/traefik-home:latest
+   image: ghcr.io/ivanmihov/traefik-home:latest
    volumes:
        - /var/run/docker.sock:/var/run/docker.sock:ro
        - "/path/to/your/icon.svg:/usr/share/nginx/html/icons/my-icon.svg:ro"
@@ -142,11 +142,11 @@ And then reference it in other container labels like so:
 
 When a new release is available, just:
 ```
-docker pull ghcr.io/santimar/traefik-home:latest
+docker pull ghcr.io/ivanmihov/traefik-home:latest
 ```
 
-and then 
+and then
 
 ```
-docker-compose up -d traefik-home 
+docker-compose up -d traefik-home
 ```

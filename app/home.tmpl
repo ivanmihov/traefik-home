@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{/* Some custom style */}}
@@ -71,7 +71,7 @@
         .row > div:nth-of-type(3n+3) div[data-name]::before {
             background: var(--tile-3-bgcolor);
         }
-        
+
         /* Enable darkmode in a Bootstrap Page */
         @media (prefers-color-scheme: dark) {
             body {
@@ -100,8 +100,8 @@
         {{ if eq $sort_by "name" }}
             {{ $containers = sortObjectsByKeysAsc $containers "Name" }}
         {{ end }}
-        <div class="row align-content-center justify-content-evenly">            
-            {{ range $container := $containers }}        
+        <div class="row align-content-center justify-content-evenly">
+            {{ range $container := $containers }}
 
                 {{/* Do not show myself */}}
                 {{ if eq $container.ID $home_container.ID }}
@@ -109,7 +109,7 @@
                 {{ end }}
 
                 {{/* Do not show hidden containers */}}
-                {{ $hide_container := or (index $container.Labels "traefik-home.hide") "false" | parseBool }}   
+                {{ $hide_container := or (index $container.Labels "traefik-home.hide") "false" | parseBool }}
                 {{ if $hide_container }}
                     {{continue}}
                 {{ end }}
@@ -158,7 +158,7 @@
                         <div class="row-cols-1 text-center">
                             {{/* if icon is set for this docker image then display it, otherwise use a generic icon made up by the first 2 letters */}}
                             {{ $icon := index $container.Labels "traefik-home.icon"}}
-                            {{ $name := or (index $container.Labels "traefik-home.alias") $container.Name }}                   
+                            {{ $name := or (index $container.Labels "traefik-home.alias") $container.Name }}
                             {{ if $icon }}
                                 <div style="background-image: url({{ $icon }})" class="col mb-3 icon"></div>
                             {{ else }}
@@ -174,7 +174,7 @@
                     </a>
                 </div>
             {{ end }}
-        </div>   
+        </div>
     </div>
     {{ if $show_footer }}
         <footer class="border-top d-flex justify-content-center justify-content-xl-end px-xl-5 py-3">
@@ -186,13 +186,13 @@
                 </li>
                 <li class="nav-item" id="menu-item-new-version"></li>
                 <li class="nav-item">
-                    <a href="https://github.com/santimar/traefik-home" class="nav-link px-2 text-muted">About</a>
+                    <a href="https://github.com/ivanmihov/traefik-home" class="nav-link px-2 text-muted">About</a>
                 </li>
             </ul>
         </footer>
         <script>
             const current_version = "{{ index $home_container.Labels "org.opencontainers.image.version" }}";
-            fetch("https://api.github.com/repos/santimar/traefik-home/releases/latest", {"headers": {"Accept": "application/vnd.github.v3+json"}})
+            fetch("https://api.github.com/repos/ivanmihov/traefik-home/releases/latest", {"headers": {"Accept": "application/vnd.github.v3+json"}})
                 .then(response => response.json())
                 .then(response => {
                     const last_version = response.tag_name;
@@ -201,10 +201,10 @@
                         let badge = document.getElementById("badge-tag");
                         let menu_item = document.getElementById("menu-item-new-version");
                         badge.innerHTML += '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>';
-                        menu_item.innerHTML = '<a href="https://github.com/santimar/traefik-home/releases/latest" class="nav-link px-2 text-decoration-underline text-muted">New version available</a>';
+                        menu_item.innerHTML = '<a href="https://github.com/ivanmihov/traefik-home/releases/latest" class="nav-link px-2 text-decoration-underline text-muted">New version available</a>';
                     }
                 })
-                .catch(error => console.error("There was an error while checking for updates. If this happens regularly, open an issue here: https://github.com/santimar/traefik-home/issues", error));
+                .catch(error => console.error("There was an error while checking for updates. If this happens regularly, open an issue here: https://github.com/ivanmihov/traefik-home/issues", error));
         </script>
     {{ end }}
 </body>
